@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -115,8 +116,8 @@ public class PruebasPedidos {
     private static void listaVacia() {
         GestorPedidos gestor = new GestorPedidos();
 
-        verificar("Lista vacia: por fecha devuelve 0 pedidos", gestor.pedidosPorFechaLimite().length == 0);
-        verificar("Lista vacia: por prioridad devuelve 0 pedidos", gestor.pedidosPorPrioridad().length == 0);
+        verificar("Lista vacia: por fecha devuelve 0 pedidos", gestor.pedidosPorFechaLimite().size() == 0);
+        verificar("Lista vacia: por prioridad devuelve 0 pedidos", gestor.pedidosPorPrioridad().size() == 0);
         verificar("Lista vacia: buscar devuelve null", gestor.buscarPorId(1) == null);
     }
 
@@ -151,10 +152,10 @@ public class PruebasPedidos {
         verificar("El arreglo original conserva su orden",
                 idsIguales(ids(pedidos), new int[]{5, 2, 9}));
 
-        Pedido[] reporte = gestor.pedidosPorFechaLimite();
-        reporte[0] = null;
+        ArrayList<Pedido> reporte = gestor.pedidosPorFechaLimite();
+        reporte.set(0, null);
         verificar("Modificar un reporte devuelto no afecta al gestor",
-                gestor.buscarPorId(2) != null && gestor.pedidosPorFechaLimite()[0] != null);
+                gestor.buscarPorId(2) != null && gestor.pedidosPorFechaLimite().get(0) != null);
     }
 
     private static void agregarDespuesDeBuscar() {
@@ -180,7 +181,7 @@ public class PruebasPedidos {
             lanzoExcepcion = true;
         }
         verificar("Agregar un ID existente lanza excepcion", lanzoExcepcion);
-        verificar("Tras el rechazo siguen los mismos pedidos", gestor.pedidosPorFechaLimite().length == 6);
+        verificar("Tras el rechazo siguen los mismos pedidos", gestor.pedidosPorFechaLimite().size() == 6);
         verificar("Tras el rechazo el pedido original sigue intacto",
                 gestor.buscarPorId(5) != null && gestor.buscarPorId(5).getFechaLimite().toString().equals("2026-11-20"));
     }
@@ -236,7 +237,7 @@ public class PruebasPedidos {
         verificar("Volumen (n=" + n + "): vista por prioridad ordenada",
                 estaOrdenado(gestor.pedidosPorPrioridad(), ComparadorPedido.PRIORIDAD));
         verificar("Volumen (n=" + n + "): mantiene los n pedidos",
-                gestor.pedidosPorFechaLimite().length == n && gestor.pedidosPorPrioridad().length == n);
+                gestor.pedidosPorFechaLimite().size() == n && gestor.pedidosPorPrioridad().size() == n);
 
         boolean todosEncontrados = true;
         for (int id = 1; id <= n; id++) {
@@ -274,6 +275,14 @@ public class PruebasPedidos {
         return new Pedido(id, 1, LocalDate.parse(fecha), prioridad, 10.0);
     }
 
+    private static int[] ids(ArrayList<Pedido> pedidos) {
+        int[] resultado = new int[pedidos.size()];
+        for (int i = 0; i < pedidos.size(); i++) {
+            resultado[i] = pedidos.get(i).getId();
+        }
+        return resultado;
+    }
+
     private static int[] ids(Pedido[] pedidos) {
         int[] resultado = new int[pedidos.length];
         for (int i = 0; i < pedidos.length; i++) {
@@ -294,9 +303,9 @@ public class PruebasPedidos {
         return true;
     }
 
-    private static boolean estaOrdenado(Pedido[] pedidos, int criterio) {
-        for (int i = 1; i < pedidos.length; i++) {
-            if (ComparadorPedido.comparar(pedidos[i - 1], pedidos[i], criterio) > 0) {
+    private static boolean estaOrdenado(ArrayList<Pedido> pedidos, int criterio) {
+        for (int i = 1; i < pedidos.size(); i++) {
+            if (ComparadorPedido.comparar(pedidos.get(i - 1), pedidos.get(i), criterio) > 0) {
                 return false;
             }
         }

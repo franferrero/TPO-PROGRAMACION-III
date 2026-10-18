@@ -1,11 +1,12 @@
 import java.util.ArrayList;
 
+// El gestor administra los pedidos y mantiene siempre UNA estructura: la lista ordenada por ID, que es la organizacion que necesita la busqueda binaria.
+
 public class GestorPedidos {
 
     private final ArrayList<Pedido> pedidosPorId = new ArrayList<>();   // siempre ordenada por ID
 
-    // Inserta el pedido en la posicion que mantiene el orden por ID.
-    // Lanza IllegalArgumentException si ya existe un pedido con ese ID.
+    // Inserta el pedido en la posicion y mantiene el orden por ID. O(N)
     public void agregar(Pedido pedido) {
         int posicion = 0;
         while (posicion < pedidosPorId.size() && pedidosPorId.get(posicion).getId() < pedido.getId()) {
@@ -17,23 +18,15 @@ public class GestorPedidos {
         pedidosPorId.add(posicion, pedido);   // corre hacia la derecha los que siguen
     }
 
-    // Desde la fecha limite mas cercana a la mas lejana
-    public Pedido[] pedidosPorFechaLimite() {
-        return MergeSort.ordenar(comoArreglo(), ComparadorPedido.FECHA);
+    public ArrayList<Pedido> pedidosPorFechaLimite() {
+        return MergeSort.ordenar(pedidosPorId, ComparadorPedido.FECHA);
     }
 
-    // Desde la prioridad mas alta a la mas baja
-    public Pedido[] pedidosPorPrioridad() {
-        return MergeSort.ordenar(comoArreglo(), ComparadorPedido.PRIORIDAD);
+    public ArrayList<Pedido> pedidosPorPrioridad() {
+        return MergeSort.ordenar(pedidosPorId, ComparadorPedido.PRIORIDAD);
     }
 
-    // Devuelve el pedido con ese ID, o null si no existe
     public Pedido buscarPorId(int id) {
         return BusquedaBinaria.buscarPorId(pedidosPorId, id);
-    }
-
-    // MergeSort trabaja con arreglos; esta conversion solo se usa en los reportes
-    private Pedido[] comoArreglo() {
-        return pedidosPorId.toArray(new Pedido[0]);
     }
 }

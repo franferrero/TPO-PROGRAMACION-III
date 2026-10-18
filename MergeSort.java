@@ -1,13 +1,15 @@
+import java.util.ArrayList;
+
 public class MergeSort {
 
-    // Devuelve una copia ordenada; el arreglo original no se modifica
-    public static Pedido[] ordenar(Pedido[] pedidos, int criterio) {
-        Pedido[] copia = pedidos.clone();
-        mergeSort(copia, 0, copia.length - 1, criterio);
+    // Devuelve una copia ordenada; la lista original no se modifica
+    public static ArrayList<Pedido> ordenar(ArrayList<Pedido> pedidos, int criterio) {
+        ArrayList<Pedido> copia = new ArrayList<>(pedidos);
+        mergeSort(copia, 0, copia.size() - 1, criterio);
         return copia;
     }
 
-    private static void mergeSort(Pedido[] s, int inicio, int fin, int criterio) {
+    private static void mergeSort(ArrayList<Pedido> s, int inicio, int fin, int criterio) {
         if (inicio < fin) {
             int medio = (inicio + fin) / 2;
             mergeSort(s, inicio, medio, criterio);
@@ -16,24 +18,24 @@ public class MergeSort {
         }
     }
 
-    private static void merge(Pedido[] s, int inicio, int fin, int criterio) {
-        Pedido[] r = new Pedido[fin - inicio + 1];
+    private static void merge(ArrayList<Pedido> s, int inicio, int fin, int criterio) {
+        ArrayList<Pedido> r = new ArrayList<>();
         int medio = (inicio + fin) / 2;
         int i = inicio;
         int j = medio + 1;
         for (int k = 0; k <= fin - inicio; k++) {
 
-            if (i <= medio && (j > fin || ComparadorPedido.comparar(s[i], s[j], criterio) <= 0)) { // si cumple tomo el de la izq
-                r[k] = s[i];
+            if (i <= medio && (j > fin || ComparadorPedido.comparar(s.get(i), s.get(j), criterio) <= 0)) { // si cumple tomo el de la izq
+                r.add(s.get(i));
                 i++;
             } else { // sino tomo de la derecha
-                r[k] = s[j];
+                r.add(s.get(j));
                 j++;
             }
         }
 
         for (int k = 0; k <= fin - inicio; k++) {
-            s[inicio + k] = r[k];
+            s.set(inicio + k, r.get(k));
         }
     }
 }

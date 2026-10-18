@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -32,7 +33,7 @@ public class Main {
         }
     }
 
-    private static void mostrar(String titulo, Pedido[] pedidos) {
+    private static void mostrar(String titulo, ArrayList<Pedido> pedidos) {
         System.out.println("=== " + titulo + " ===");
         for (Pedido pedido : pedidos) {
             System.out.println(pedido);

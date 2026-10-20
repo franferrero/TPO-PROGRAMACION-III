@@ -1,9 +1,16 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+import pedidos.GestorPedidos;
+import pedidos.Pedido;
 
 public class Main {
 
     public static void main(String[] args) {
+        ejecutarFuncionalidad1();
+    }
+
+    // Funcionalidad 1: organizacion y consulta de pedidos
+    private static void ejecutarFuncionalidad1() {
         Pedido[] pedidos = {
             new Pedido(5, 2, LocalDate.of(2026, 11, 20), 3, 120.0),
             new Pedido(2, 4, LocalDate.of(2026, 11, 10), 2, 80.5),

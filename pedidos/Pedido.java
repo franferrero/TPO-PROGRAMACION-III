@@ -1,3 +1,5 @@
+package pedidos;
+
 import java.time.LocalDate;
 
 public class Pedido {

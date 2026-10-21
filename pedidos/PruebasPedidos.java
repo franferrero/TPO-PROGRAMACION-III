@@ -25,8 +25,9 @@ public class PruebasPedidos {
         originalNoSeModifica();
         agregarDespuesDeBuscar();
         idRepetidoNoAlteraElGestor();
-        reportesNoSeAfectanEntreSi();
+        distintosOrdenesNoSeAfectanEntreSi();
         criterioInvalido();
+        desempatesDelComparador();
         volumenGrande();
 
         System.out.println();
@@ -47,7 +48,7 @@ public class PruebasPedidos {
             pedido(7, "2026-11-15", 3),
             pedido(3, "2026-11-15", 3)
         };
-        GestorPedidos gestor = gestorCon(pedidos);
+        GestorPedidos gestor = armarGestorCon(pedidos);
 
         // Empate de fecha (2 y 9; 3 y 7): desempata ID menor
         verificar("Orden por fecha con empates",
@@ -65,7 +66,7 @@ public class PruebasPedidos {
             pedido(3, "2026-11-10", 3),
             pedido(1, "2026-11-10", 3)
         };
-        GestorPedidos gestor = gestorCon(pedidos);
+        GestorPedidos gestor = armarGestorCon(pedidos);
 
         verificar("Misma fecha y prioridad: por fecha desempata por ID",
                 idsIguales(ids(gestor.pedidosPorFechaLimite()), new int[]{1, 2, 3, 4}));
@@ -84,8 +85,8 @@ public class PruebasPedidos {
             ascendente[3], ascendente[2], ascendente[1], ascendente[0]
         };
 
-        GestorPedidos g1 = gestorCon(ascendente);
-        GestorPedidos g2 = gestorCon(descendente);
+        GestorPedidos g1 = armarGestorCon(ascendente);
+        GestorPedidos g2 = armarGestorCon(descendente);
 
         verificar("Entrada ya ordenada: por fecha",
                 idsIguales(ids(g1.pedidosPorFechaLimite()), new int[]{1, 2, 3, 4}));
@@ -98,7 +99,7 @@ public class PruebasPedidos {
     }
 
     private static void busquedaExistentes() {
-        GestorPedidos gestor = gestorCon(datosBusqueda());
+        GestorPedidos gestor = armarGestorCon(datosEj());
 
         verificar("Buscar el primer ID (1)", gestor.buscarPorId(1) != null && gestor.buscarPorId(1).getId() == 1);
         verificar("Buscar el ultimo ID (9)", gestor.buscarPorId(9) != null && gestor.buscarPorId(9).getId() == 9);
@@ -107,7 +108,7 @@ public class PruebasPedidos {
     }
 
     private static void busquedaInexistentes() {
-        GestorPedidos gestor = gestorCon(datosBusqueda());
+        GestorPedidos gestor = armarGestorCon(datosEj());
 
         verificar("Buscar ID inexistente entre dos existentes (4)", gestor.buscarPorId(4) == null);
         verificar("Buscar ID menor al minimo (0)", gestor.buscarPorId(0) == null);
@@ -124,7 +125,7 @@ public class PruebasPedidos {
     }
 
     private static void unSoloPedido() {
-        GestorPedidos gestor = gestorCon(new Pedido[]{pedido(8, "2026-11-10", 2)});
+        GestorPedidos gestor = armarGestorCon(new Pedido[]{pedido(8, "2026-11-10", 2)});
 
         verificar("Un pedido: por fecha", idsIguales(ids(gestor.pedidosPorFechaLimite()), new int[]{8}));
         verificar("Un pedido: por prioridad", idsIguales(ids(gestor.pedidosPorPrioridad()), new int[]{8}));
@@ -135,7 +136,7 @@ public class PruebasPedidos {
     private static void idsRepetidos() {
         boolean lanzoExcepcion = false;
         try {
-            gestorCon(new Pedido[]{pedido(3, "2026-11-10", 1), pedido(3, "2026-11-12", 2)});
+            armarGestorCon(new Pedido[]{pedido(3, "2026-11-10", 1), pedido(3, "2026-11-12", 2)});
         } catch (IllegalArgumentException e) {
             lanzoExcepcion = true;
         }
@@ -148,20 +149,20 @@ public class PruebasPedidos {
             pedido(2, "2026-11-10", 2),
             pedido(9, "2026-11-10", 5)
         };
-        GestorPedidos gestor = gestorCon(pedidos);
+        GestorPedidos gestor = armarGestorCon(pedidos);
         gestor.pedidosPorFechaLimite();
         gestor.buscarPorId(2);
         verificar("El arreglo original conserva su orden",
                 idsIguales(ids(pedidos), new int[]{5, 2, 9}));
 
-        ArrayList<Pedido> reporte = gestor.pedidosPorFechaLimite();
-        reporte.set(0, null);
-        verificar("Modificar un reporte devuelto no afecta al gestor",
+        ArrayList<Pedido> pedidosOrdenados = gestor.pedidosPorFechaLimite();
+        pedidosOrdenados.set(0, null);
+        verificar("Modificar la lista ordenada devuelta no afecta la lista del gestor",
                 gestor.buscarPorId(2) != null && gestor.pedidosPorFechaLimite().get(0) != null);
     }
 
     private static void agregarDespuesDeBuscar() {
-        GestorPedidos gestor = gestorCon(datosBusqueda());
+        GestorPedidos gestor = armarGestorCon(datosEj());
 
         verificar("Antes de agregar: el 4 no existe", gestor.buscarPorId(4) == null);
         gestor.agregar(pedido(4, "2026-11-12", 1));
@@ -169,12 +170,12 @@ public class PruebasPedidos {
                 gestor.buscarPorId(4) != null && gestor.buscarPorId(4).getId() == 4);
         verificar("Despues de agregar: siguen encontrandose los anteriores",
                 gestor.buscarPorId(1) != null && gestor.buscarPorId(9) != null);
-        verificar("Despues de agregar: el reporte por fecha incluye al nuevo",
+        verificar("Despues de agregar: la lista ordenada por fecha incluye al nuevo",
                 idsIguales(ids(gestor.pedidosPorFechaLimite()), new int[]{2, 9, 4, 3, 7, 5, 1}));
     }
 
     private static void idRepetidoNoAlteraElGestor() {
-        GestorPedidos gestor = gestorCon(datosBusqueda());
+        GestorPedidos gestor = armarGestorCon(datosEj());
 
         boolean lanzoExcepcion = false;
         try {
@@ -183,19 +184,19 @@ public class PruebasPedidos {
             lanzoExcepcion = true;
         }
         verificar("Agregar un ID existente lanza excepcion", lanzoExcepcion);
-        verificar("Tras el rechazo siguen los mismos pedidos", gestor.pedidosPorFechaLimite().size() == 6);
-        verificar("Tras el rechazo el pedido original sigue intacto",
+        verificar("Tras la excepcion siguen los mismos pedidos", gestor.pedidosPorFechaLimite().size() == 6);
+        verificar("Tras la excepcion el pedido original sigue intacto",
                 gestor.buscarPorId(5) != null && gestor.buscarPorId(5).getFechaLimite().toString().equals("2026-11-20"));
     }
 
-    private static void reportesNoSeAfectanEntreSi() {
-        GestorPedidos gestor = gestorCon(datosBusqueda());
+    private static void distintosOrdenesNoSeAfectanEntreSi() {
+        GestorPedidos gestor = armarGestorCon(datosEj());
 
         gestor.pedidosPorPrioridad();
         gestor.buscarPorId(5);
-        verificar("Pedir otros reportes antes no altera el reporte por fecha",
+        verificar("Pedir otros ordenes antes no altera el orden por fecha",
                 idsIguales(ids(gestor.pedidosPorFechaLimite()), new int[]{2, 9, 3, 7, 5, 1}));
-        verificar("Pedir otros reportes antes no altera el reporte por prioridad",
+        verificar("Pedir otros ordenes antes no altera el orden por prioridad",
                 idsIguales(ids(gestor.pedidosPorPrioridad()), new int[]{9, 1, 3, 7, 5, 2}));
     }
 
@@ -209,17 +210,32 @@ public class PruebasPedidos {
         verificar("Criterio invalido lanza excepcion", lanzoExcepcion);
     }
 
+    // Reglas de desempate del comparador, probadas directamente (sin pasar por el ordenamiento)
+    private static void desempatesDelComparador() {
+        Pedido a = pedido(2, "2026-11-10", 3);
+        Pedido b = pedido(9, "2026-11-10", 3);
+
+        verificar("Comparador por fecha: misma fecha, el ID menor va primero",
+                ComparadorPedido.comparar(a, b, ComparadorPedido.FECHA) < 0
+                && ComparadorPedido.comparar(b, a, ComparadorPedido.FECHA) > 0);
+        verificar("Comparador por prioridad: misma prioridad y fecha, el ID menor va primero",
+                ComparadorPedido.comparar(a, b, ComparadorPedido.PRIORIDAD) < 0
+                && ComparadorPedido.comparar(b, a, ComparadorPedido.PRIORIDAD) > 0);
+        verificar("Comparador: un pedido comparado consigo mismo da 0",
+                ComparadorPedido.comparar(a, a, ComparadorPedido.FECHA) == 0
+                && ComparadorPedido.comparar(a, a, ComparadorPedido.PRIORIDAD) == 0);
+    }
+
     // Volumen grande: se revisa que cada vista quede ordenada y que se encuentre cada ID
     private static void volumenGrande() {
         int n = 2000;
         Random azar = new Random(42);
 
-        // IDs 1..n mezclados (Fisher-Yates), para que no haya repetidos
         int[] idsMezclados = new int[n];
         for (int i = 0; i < n; i++) {
             idsMezclados[i] = i + 1;
         }
-        for (int i = n - 1; i > 0; i--) {
+        for (int i = n - 1; i > 0; i--) { // mezcla los ids
             int j = azar.nextInt(i + 1);
             int auxiliar = idsMezclados[i];
             idsMezclados[i] = idsMezclados[j];
@@ -232,11 +248,11 @@ public class PruebasPedidos {
             pedidos[i] = new Pedido(idsMezclados[i], 1, fecha, azar.nextInt(10), 1.0);
         }
 
-        GestorPedidos gestor = gestorCon(pedidos);
+        GestorPedidos gestor = armarGestorCon(pedidos);
 
-        verificar("Volumen (n=" + n + "): vista por fecha ordenada",
+        verificar("Volumen (n=" + n + "): lista por fecha ordenada",
                 estaOrdenado(gestor.pedidosPorFechaLimite(), ComparadorPedido.FECHA));
-        verificar("Volumen (n=" + n + "): vista por prioridad ordenada",
+        verificar("Volumen (n=" + n + "): lista por prioridad ordenada",
                 estaOrdenado(gestor.pedidosPorPrioridad(), ComparadorPedido.PRIORIDAD));
         verificar("Volumen (n=" + n + "): mantiene los n pedidos",
                 gestor.pedidosPorFechaLimite().size() == n && gestor.pedidosPorPrioridad().size() == n);
@@ -254,7 +270,7 @@ public class PruebasPedidos {
 
     // ---------- Auxiliares ----------
 
-    private static GestorPedidos gestorCon(Pedido[] pedidos) {
+    private static GestorPedidos armarGestorCon(Pedido[] pedidos) {
         GestorPedidos gestor = new GestorPedidos();
         for (Pedido pedido : pedidos) {
             gestor.agregar(pedido);
@@ -262,7 +278,7 @@ public class PruebasPedidos {
         return gestor;
     }
 
-    private static Pedido[] datosBusqueda() {
+    private static Pedido[] datosEj() {
         return new Pedido[]{
             pedido(5, "2026-11-20", 3),
             pedido(2, "2026-11-10", 2),
@@ -293,12 +309,12 @@ public class PruebasPedidos {
         return resultado;
     }
 
-    private static boolean idsIguales(int[] a, int[] b) {
-        if (a.length != b.length) {
+    private static boolean idsIguales(int[] idsResultado, int[] idsEsperado) {
+        if (idsResultado.length != idsEsperado.length) {
             return false;
         }
-        for (int i = 0; i < a.length; i++) {
-            if (a[i] != b[i]) {
+        for (int i = 0; i < idsResultado.length; i++) {
+            if (idsResultado[i] != idsEsperado[i]) {
                 return false;
             }
         }

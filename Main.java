@@ -1,5 +1,8 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+import cargas.SelectorCargas;
+import modelo.Lote;
+import modelo.Vehiculo;
 import pedidos.GestorPedidos;
 import pedidos.Pedido;
 
@@ -7,6 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
         ejecutarFuncionalidad1();
+        ejecutarFuncionalidad3();
     }
 
     // Funcionalidad 1: organizacion y consulta de pedidos
@@ -46,5 +50,25 @@ public class Main {
             System.out.println(pedido);
         }
         System.out.println();
+    }
+
+    // Funcionalidad 3: seleccion de cargas prioritarias
+    private static void ejecutarFuncionalidad3() {
+        Vehiculo vehiculo = new Vehiculo(1, 8);
+        ArrayList<Lote> lotes = new ArrayList<>();
+        lotes.add(new Lote(1, 1, 10));
+        lotes.add(new Lote(2, 4, 3));
+        lotes.add(new Lote(3, 5, 5));
+        lotes.add(new Lote(4, 7, 8));
+
+        System.out.println();
+        System.out.println("=== Seleccion de cargas prioritarias ===");
+        System.out.println(vehiculo);
+        System.out.println("Lotes disponibles:");
+        for (Lote lote : lotes) {
+            System.out.println(lote);
+        }
+        System.out.println();
+        System.out.println(SelectorCargas.seleccionar(vehiculo, lotes));
     }
 }

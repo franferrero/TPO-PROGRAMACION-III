@@ -5,11 +5,15 @@ import modelo.Lote;
 import modelo.Vehiculo;
 import pedidos.GestorPedidos;
 import pedidos.Pedido;
+import rutas.CalculadorRutas;
+import rutas.RedVial;
+import rutas.ResultadoRuta;
 
 public class Main {
 
     public static void main(String[] args) {
         ejecutarFuncionalidad1();
+        ejecutarFuncionalidad2();
         ejecutarFuncionalidad3();
     }
 
@@ -50,6 +54,40 @@ public class Main {
             System.out.println(pedido);
         }
         System.out.println();
+    }
+
+    // Funcionalidad 2: ruta mas rapida en una red vial dirigida (Dijkstra, Greedy)
+    private static void ejecutarFuncionalidad2() {
+        RedVial red = new RedVial();
+        for (int id = 1; id <= 5; id++) {
+            red.agregarUbicacion(id); // 1: deposito; 2, 3 y 4: centros; 5: aislado.
+        }
+        red.agregarConexion(1, 2, 6);
+        red.agregarConexion(1, 3, 16);
+        red.agregarConexion(1, 4, 30);
+        red.agregarConexion(2, 3, 4);
+        red.agregarConexion(2, 4, 14);
+        red.agregarConexion(3, 4, 3);
+
+        System.out.println("\n=== Calculo de ruta mas rapida ===");
+        ResultadoRuta inicial = CalculadorRutas.calcular(red, 1, 4);
+        System.out.println("Ruta inicial: " + inicial);
+        System.out.println("Decisiones de Dijkstra:");
+        for (String decision : inicial.getDecisiones()) {
+            System.out.println("  - " + decision);
+        }
+
+        red.deshabilitarConexion(2, 3);
+        System.out.println("\nSe deshabilita la conexion 2 -> 3");
+        ResultadoRuta nueva = CalculadorRutas.calcular(red, 1, 4);
+        System.out.println("Ruta recalculada: " + nueva);
+        System.out.println("Decisiones del recalculo:");
+        for (String decision : nueva.getDecisiones()) {
+            System.out.println("  - " + decision);
+        }
+
+        System.out.println("\nConsulta a una ubicacion aislada: "
+                + CalculadorRutas.calcular(red, 1, 5));
     }
 
     // Funcionalidad 3: seleccion de cargas prioritarias

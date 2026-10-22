@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Random;
 
+import modelo.Pedido;
+
 /**
  * Casos de prueba de la funcionalidad 1.
  * Se ejecuta con main: cada verificacion imprime OK o FALLO.

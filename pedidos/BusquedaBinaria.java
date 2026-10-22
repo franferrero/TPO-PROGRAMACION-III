@@ -2,6 +2,8 @@ package pedidos;
 
 import java.util.ArrayList;
 
+import modelo.Pedido;
+
 public class BusquedaBinaria {
 
     // La lista debe estar ordenada por ID ascendente.

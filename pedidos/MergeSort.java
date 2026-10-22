@@ -2,6 +2,8 @@ package pedidos;
 
 import java.util.ArrayList;
 
+import modelo.Pedido;
+
 public class MergeSort {
 
     // Devuelve una copia ordenada; la lista original no se modifica

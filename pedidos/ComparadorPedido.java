@@ -1,5 +1,7 @@
 package pedidos;
 
+import modelo.Pedido;
+
 public class ComparadorPedido {
 
     public static final int FECHA = 1;

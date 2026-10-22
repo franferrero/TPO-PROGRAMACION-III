@@ -2,6 +2,8 @@ package pedidos;
 
 import java.util.ArrayList;
 
+import modelo.Pedido;
+
 // El gestor administra los pedidos y mantiene siempre UNA estructura: la lista ordenada por ID, que es la organizacion que necesita la busqueda binaria.
 
 public class GestorPedidos {

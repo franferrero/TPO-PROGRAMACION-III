@@ -6,7 +6,6 @@ import modelo.Lote;
 /**
  * Resultado de la seleccion de cargas: los lotes elegidos y los tres datos
  * que pide la consigna (peso total, prioridad obtenida y capacidad restante).
- * Es inmutable.
  */
 public class SeleccionCarga { // resultado de la seleccion de cargas
 

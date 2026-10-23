@@ -9,12 +9,12 @@ import java.util.ArrayList;
  */
 public class CalculadorRutas {
 
-    public static ResultadoRuta calcular(RedVial red, int origen, int destino) {
+    public static ResultadoRuta calcular(RedVial red, int idOrigen, int idDestino) {
         if (red == null) {
             throw new IllegalArgumentException("La red vial no puede ser nula");
         }
-        int inicio = red.exigirIndice(origen);
-        int fin = red.exigirIndice(destino);
+        int inicio = red.exigirIndice(idOrigen);
+        int fin = red.exigirIndice(idDestino);
         int n = red.cantidadUbicaciones();
 
         long[] distancia = new long[n];
@@ -27,7 +27,7 @@ public class CalculadorRutas {
             anterior[i] = -1;
         }
         distancia[inicio] = 0;
-        decisiones.add("Inicio en " + origen + ": tiempo 0; los demas, infinito");
+        decisiones.add("Inicio en " + idOrigen + ": tiempo 0; los demas, infinito");
 
         for (int paso = 0; paso < n; paso++) {
             int elegido = elegirUbicacion(red, distancia, visitado);
@@ -47,7 +47,7 @@ public class CalculadorRutas {
         }
 
         if (distancia[fin] == Long.MAX_VALUE) {
-            decisiones.add("No existe recorrido de " + origen + " a " + destino);
+            decisiones.add("No existe recorrido de " + idOrigen + " a " + idDestino);
             return new ResultadoRuta(new ArrayList<>(), -1, decisiones);
         }
 

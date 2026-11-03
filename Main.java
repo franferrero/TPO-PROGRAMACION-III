@@ -1,5 +1,7 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
+import cargas.DistribuidorCargas;
 import cargas.SelectorCargas;
 import modelo.Lote;
 import modelo.Pedido;
@@ -15,6 +17,7 @@ public class Main {
         ejecutarFuncionalidad1();
         ejecutarFuncionalidad2();
         ejecutarFuncionalidad3();
+        ejecutarDistribucionCargas();
     }
 
     // Funcionalidad 1: organizacion y consulta de pedidos
@@ -108,5 +111,37 @@ public class Main {
         }
         System.out.println();
         System.out.println(SelectorCargas.seleccionar(vehiculo, lotes));
+    }
+
+    // B2: distribucion de cargas entre vehiculos (Backtracking)
+    private static void ejecutarDistribucionCargas() {
+        Vehiculo v1 = new Vehiculo(1, 10);
+        Vehiculo v2 = new Vehiculo(2, 10);
+        ArrayList<Vehiculo> vehiculos = new ArrayList<>(Arrays.asList(v1, v2));
+
+        ArrayList<Lote> lotes = new ArrayList<>();
+        lotes.add(new Lote(1, 5, 0, new ArrayList<>(Arrays.asList(v1, v2))));
+        lotes.add(new Lote(2, 6, 0, new ArrayList<>(Arrays.asList(v1))));
+        lotes.add(new Lote(3, 4, 0, new ArrayList<>(Arrays.asList(v1, v2))));
+        lotes.add(new Lote(4, 5, 0, new ArrayList<>(Arrays.asList(v2))));
+
+        System.out.println();
+        System.out.println("=== Distribucion de cargas entre vehiculos ===");
+        for (Vehiculo vehiculo : vehiculos) {
+            System.out.println(vehiculo);
+        }
+        System.out.println("Lotes (peso y vehiculos habilitados):");
+        System.out.println("  Lote 1 | peso 5 | vehiculos 1, 2");
+        System.out.println("  Lote 2 | peso 6 | vehiculos 1");
+        System.out.println("  Lote 3 | peso 4 | vehiculos 1, 2");
+        System.out.println("  Lote 4 | peso 5 | vehiculos 2");
+        System.out.println();
+        System.out.println(DistribuidorCargas.distribuir(vehiculos, lotes));
+
+        // Mismo caso con un vehiculo menos: no hay capacidad suficiente
+        vehiculos.remove(1);
+        System.out.println();
+        System.out.println("Sin el vehiculo 2:");
+        System.out.println(DistribuidorCargas.distribuir(vehiculos, lotes));
     }
 }

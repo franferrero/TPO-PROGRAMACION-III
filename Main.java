@@ -7,6 +7,7 @@ import modelo.Lote;
 import modelo.Pedido;
 import modelo.Vehiculo;
 import pedidos.GestorPedidos;
+import rutas.BuscadorRutas;
 import rutas.CalculadorRutas;
 import rutas.RedVial;
 import rutas.ResultadoRuta;
@@ -18,6 +19,7 @@ public class Main {
         ejecutarFuncionalidad2();
         ejecutarFuncionalidad3();
         ejecutarDistribucionCargas();
+        ejecutarRutasAlternativas();
     }
 
     // Funcionalidad 1: organizacion y consulta de pedidos
@@ -143,5 +145,38 @@ public class Main {
         System.out.println();
         System.out.println("Sin el vehiculo 2:");
         System.out.println(DistribuidorCargas.distribuir(vehiculos, lotes));
+    }
+
+    // B3: rutas alternativas con restricciones (Backtracking)
+    private static void ejecutarRutasAlternativas() {
+        RedVial red = new RedVial();
+        for (int id = 1; id <= 5; id++) {
+            red.agregarUbicacion(id); // 5 queda aislado
+        }
+        red.agregarConexion(1, 2, 6);
+        red.agregarConexion(1, 3, 16);
+        red.agregarConexion(1, 4, 30);
+        red.agregarConexion(2, 3, 4);
+        red.agregarConexion(2, 4, 14);
+        red.agregarConexion(3, 4, 3);
+        red.agregarConexion(3, 2, 2); // crea el ciclo 2 -> 3 -> 2: no se pueden repetir ubicaciones
+
+        System.out.println();
+        System.out.println("=== Rutas alternativas de 1 a 4 ===");
+
+        System.out.println("Tiempo maximo 100, sin ubicaciones prohibidas:");
+        System.out.println(BuscadorRutas.buscar(red, 1, 4, 100, new ArrayList<>()));
+
+        System.out.println();
+        System.out.println("Tiempo maximo 25:");
+        System.out.println(BuscadorRutas.buscar(red, 1, 4, 25, new ArrayList<>()));
+
+        System.out.println();
+        System.out.println("Tiempo maximo 100, ubicacion 3 prohibida:");
+        System.out.println(BuscadorRutas.buscar(red, 1, 4, 100, new ArrayList<>(Arrays.asList(3))));
+
+        System.out.println();
+        System.out.println("De 1 a 5 (ubicacion aislada):");
+        System.out.println(BuscadorRutas.buscar(red, 1, 5, 100, new ArrayList<>()));
     }
 }

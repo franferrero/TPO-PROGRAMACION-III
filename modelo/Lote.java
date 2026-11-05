@@ -1,14 +1,15 @@
 package modelo;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Lote {
 
     private final int id;
     private final int peso;
     private final int prioridad;
-    // Vehiculos habilitados para transportar el lote. Una lista vacia significa que ningun vehiculo puede llevarlo.
-    private final ArrayList<Vehiculo> vehiculosHabilitados;
+    // IDs de los vehiculos habilitados para transportar el lote. Un conjunto vacio significa que ningun vehiculo puede llevarlo.
+    private final HashSet<Integer> idsHabilitados;
 
     // Lote sin vehiculos habilitados (para la funcionalidad 3, que solo usa peso y prioridad)
     public Lote(int id, int peso, int prioridad) {
@@ -31,7 +32,10 @@ public class Lote {
         this.id = id;
         this.peso = peso;
         this.prioridad = prioridad;
-        this.vehiculosHabilitados = new ArrayList<>(vehiculosHabilitados); // copia 
+        this.idsHabilitados = new HashSet<>();
+        for (Vehiculo habilitado : vehiculosHabilitados) {
+            this.idsHabilitados.add(habilitado.getId());
+        }
     }
 
     public int getId() { return id; }
@@ -39,14 +43,9 @@ public class Lote {
     public int getPrioridad() { return prioridad; }
 
     // Indica si el vehiculo esta habilitado para transportar este lote.
-    // Se compara por ID del vehiculo, no por referencia al objeto.
+    // Se compara por ID del vehiculo, no por referencia al objeto. Consultar el HashSet cuesta O(1).
     public boolean puedeIrEn(Vehiculo vehiculo) {
-        for (Vehiculo habilitado : vehiculosHabilitados) {
-            if (habilitado.getId() == vehiculo.getId()) {
-                return true;
-            }
-        }
-        return false;
+        return idsHabilitados.contains(vehiculo.getId());
     }
 
     @Override

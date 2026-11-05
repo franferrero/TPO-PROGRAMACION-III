@@ -11,12 +11,14 @@ import rutas.BuscadorRutas;
 import rutas.CalculadorRutas;
 import rutas.RedVial;
 import rutas.ResultadoRuta;
+import rutas.FloydWarshall;
 
 public class Main {
 
     public static void main(String[] args) {
         ejecutarFuncionalidad1();
         ejecutarFuncionalidad2();
+        ejecutarConsultasRutasA1();
         ejecutarFuncionalidad3();
         ejecutarDistribucionCargas();
         ejecutarRutasAlternativas();
@@ -178,5 +180,32 @@ public class Main {
         System.out.println();
         System.out.println("De 1 a 5 (ubicacion aislada):");
         System.out.println(BuscadorRutas.buscar(red, 1, 5, 100, new ArrayList<>()));
+    }
+
+    // A1 (Bloque A): Floyd-Warshall, consultas entre todos los pares de ubicaciones.
+    private static void ejecutarConsultasRutasA1() {
+        RedVial red = new RedVial();
+        for (int id = 1; id <= 5; id++) {
+            red.agregarUbicacion(id);
+        }
+        red.agregarConexion(1, 2, 6);
+        red.agregarConexion(1, 3, 16);
+        red.agregarConexion(1, 4, 30);
+        red.agregarConexion(2, 3, 4);
+        red.agregarConexion(2, 4, 14);
+        red.agregarConexion(3, 4, 3);
+
+        System.out.println("\n=== A1: rutas entre todos los centros (Floyd-Warshall) ===");
+        FloydWarshall consultas = new FloydWarshall(red); // Preparar UNA sola vez.
+        int[][] pares = {{1, 4}, {2, 4}, {4, 1}, {1, 5}, {5, 5}};
+        for (int[] par : pares) {
+            System.out.println(par[0] + " -> " + par[1] + ": "
+                    + consultas.consultar(par[0], par[1]));
+        }
+
+        // Si cambia la red, se prepara nuevamente antes de consultar.
+        red.deshabilitarConexion(2, 3);
+        consultas = new FloydWarshall(red);
+        System.out.println("Sin conexion 2 -> 3: " + consultas.consultar(1, 4));
     }
 }

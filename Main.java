@@ -20,8 +20,8 @@ public class Main {
         ejecutarFuncionalidad2();
         ejecutarConsultasRutasA1();
         ejecutarFuncionalidad3();
-        ejecutarDistribucionCargas();
-        ejecutarRutasAlternativas();
+        ejecutarFuncionalidadB2();
+        ejecutarFuncionalidadB3();
     }
 
     // Funcionalidad 1: organizacion y consulta de pedidos
@@ -118,7 +118,7 @@ public class Main {
     }
 
     // B2: distribucion de cargas entre vehiculos (Backtracking)
-    private static void ejecutarDistribucionCargas() {
+    private static void ejecutarFuncionalidadB2() {
         Vehiculo v1 = new Vehiculo(1, 10);
         Vehiculo v2 = new Vehiculo(2, 10);
         ArrayList<Vehiculo> vehiculos = new ArrayList<>(Arrays.asList(v1, v2));
@@ -150,7 +150,7 @@ public class Main {
     }
 
     // B3: rutas alternativas con restricciones (Backtracking)
-    private static void ejecutarRutasAlternativas() {
+    private static void ejecutarFuncionalidadB3() {
         RedVial red = new RedVial();
         for (int id = 1; id <= 5; id++) {
             red.agregarUbicacion(id); // 5 queda aislado

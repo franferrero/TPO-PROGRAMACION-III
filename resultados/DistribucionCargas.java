@@ -1,4 +1,4 @@
-package cargas;
+package resultados;
 
 import java.util.ArrayList;
 import modelo.Lote;

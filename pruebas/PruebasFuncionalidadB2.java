@@ -1,9 +1,12 @@
-package cargas;
+package pruebas;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import algoritmos.DistribuidorCargas;
 import modelo.Lote;
 import modelo.Vehiculo;
+import resultados.DistribucionCargas;
 
 /**
  * Casos de prueba de B2 (distribucion de cargas entre vehiculos).
@@ -11,7 +14,7 @@ import modelo.Vehiculo;
  * Los lotes se describen como {id, peso, id de vehiculos habilitados...}; si no se indica
  * ninguno, el lote queda habilitado en todos los vehiculos del caso. Los vehiculos como {id, capacidad}.
  */
-public class PruebasDistribucion {
+public class PruebasFuncionalidadB2 {
 
     private static int total = 0;
     private static int fallos = 0;

@@ -1,6 +1,9 @@
-package rutas;
+package algoritmos;
 
 import java.util.ArrayList;
+
+import modelo.RedVial;
+import resultados.ResultadoRuta;
 
 public class FloydWarshall {
     private final ArrayList<Integer> ubicaciones;

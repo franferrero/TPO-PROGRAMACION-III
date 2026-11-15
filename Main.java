@@ -1,17 +1,18 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import cargas.DistribuidorCargas;
-import cargas.SelectorCargas;
+
+import algoritmos.BuscadorRutas;
+import algoritmos.CalculadorRutas;
+import algoritmos.DistribuidorCargas;
+import algoritmos.FloydWarshall;
+import algoritmos.GestorPedidos;
+import algoritmos.SelectorCargas;
 import modelo.Lote;
 import modelo.Pedido;
+import modelo.RedVial;
 import modelo.Vehiculo;
-import pedidos.GestorPedidos;
-import rutas.BuscadorRutas;
-import rutas.CalculadorRutas;
-import rutas.RedVial;
-import rutas.ResultadoRuta;
-import rutas.FloydWarshall;
+import resultados.ResultadoRuta;
 
 public class Main {
 

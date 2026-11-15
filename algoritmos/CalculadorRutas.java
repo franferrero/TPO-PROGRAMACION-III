@@ -1,6 +1,9 @@
-package rutas;
+package algoritmos;
 
 import java.util.ArrayList;
+
+import modelo.RedVial;
+import resultados.ResultadoRuta;
 
 /**
  * Funcionalidad 2: camino minimo en una red dirigida con tiempos positivos.

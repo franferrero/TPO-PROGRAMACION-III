@@ -1,4 +1,4 @@
-package pedidos;
+package algoritmos;
 
 import modelo.Pedido;
 

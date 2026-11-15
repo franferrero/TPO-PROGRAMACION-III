@@ -1,4 +1,4 @@
-package rutas;
+package resultados;
 
 import java.util.ArrayList;
 
@@ -8,7 +8,7 @@ public class RutasAlternativas {
     private final ArrayList<ArrayList<Integer>> rutas;
     private final ArrayList<Long> tiempos; // tiempos.get(i) es el tiempo total de rutas.get(i)
 
-    RutasAlternativas(ArrayList<ArrayList<Integer>> rutas, ArrayList<Long> tiempos) {
+    public RutasAlternativas(ArrayList<ArrayList<Integer>> rutas, ArrayList<Long> tiempos) {
         this.rutas = new ArrayList<>();
         for (ArrayList<Integer> ruta : rutas) {
             this.rutas.add(new ArrayList<>(ruta));

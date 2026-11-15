@@ -1,4 +1,4 @@
-package rutas;
+package modelo;
 
 import java.util.ArrayList;
 
@@ -51,15 +51,15 @@ public class RedVial {
         return new ArrayList<>(ubicaciones);
     }
 
-    int cantidadUbicaciones() {
+    public int cantidadUbicaciones() {
         return ubicaciones.size();
     }
 
-    int idEn(int indice) {
+    public int idEn(int indice) {
         return ubicaciones.get(indice);
     }
 
-    int tiempoEn(int i, int j) {
+    public int tiempoEn(int i, int j) {
         return tiempos[i][j];
     }
 
@@ -72,7 +72,7 @@ public class RedVial {
         return -1;
     }
 
-    int exigirIndice(int id) {
+    public int exigirIndice(int id) {
         int indice = indiceDe(id);
         if (indice == -1) {
             throw new IllegalArgumentException("Ubicacion inexistente: " + id);

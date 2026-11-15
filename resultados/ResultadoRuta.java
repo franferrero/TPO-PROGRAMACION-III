@@ -1,4 +1,4 @@
-package rutas;
+package resultados;
 
 import java.util.ArrayList;
 
@@ -8,7 +8,7 @@ public class ResultadoRuta {
     private final long tiempoTotal;
     private final ArrayList<String> decisiones;
 
-    ResultadoRuta(ArrayList<Integer> ubicaciones, long tiempoTotal, ArrayList<String> decisiones) {
+    public ResultadoRuta(ArrayList<Integer> ubicaciones, long tiempoTotal, ArrayList<String> decisiones) {
         this.ubicaciones = new ArrayList<>(ubicaciones);
         this.tiempoTotal = tiempoTotal;
         this.decisiones = new ArrayList<>(decisiones);

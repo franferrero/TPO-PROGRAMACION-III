@@ -1,9 +1,10 @@
-package cargas;
+package algoritmos;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import modelo.Lote;
 import modelo.Vehiculo;
+import resultados.DistribucionCargas;
 
 /*
 B2: distribucion de cargas (lotes) entre vehiculos, resuelta con Backtracking.

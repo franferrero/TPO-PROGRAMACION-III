@@ -1,6 +1,9 @@
-package rutas;
+package algoritmos;
 
 import java.util.ArrayList;
+
+import modelo.RedVial;
+import resultados.RutasAlternativas;
 
 /*
 B3: rutas alternativas con restricciones, resuelto con Backtracking.

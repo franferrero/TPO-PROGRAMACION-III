@@ -1,7 +1,11 @@
-package rutas;
+package pruebas;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import algoritmos.BuscadorRutas;
+import modelo.RedVial;
+import resultados.RutasAlternativas;
 
 /**
  * Casos de prueba de B3 (rutas alternativas con restricciones).
@@ -10,7 +14,7 @@ import java.util.Random;
  * la misma red de la funcionalidad 2, donde las ubicaciones 1 a 5 se conectan asi:
  * 1 -> 2 (6), 1 -> 3 (16), 1 -> 4 (30), 2 -> 3 (4), 2 -> 4 (14), 3 -> 4 (3), y la 5 queda aislada.
  */
-public class PruebasRutasAlternativas {
+public class PruebasFuncionalidadB3 {
 
     private static int total = 0;
     private static int fallos = 0;

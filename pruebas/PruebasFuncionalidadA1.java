@@ -1,10 +1,15 @@
-package rutas;
+package pruebas;
 
 import java.util.ArrayList;
 import java.util.Random;
 
+import algoritmos.CalculadorRutas;
+import algoritmos.FloydWarshall;
+import modelo.RedVial;
+import resultados.ResultadoRuta;
 
-public class PruebasFloydWarshall {
+
+public class PruebasFuncionalidadA1 {
     private static int pruebas = 0;
     private static int grupos = 0;
 

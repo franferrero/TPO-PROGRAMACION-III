@@ -1,9 +1,10 @@
-package cargas;
+package algoritmos;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import modelo.Lote;
 import modelo.Vehiculo;
+import resultados.SeleccionCarga;
 
 /**
  * Funcionalidad 3: seleccion de cargas prioritarias.

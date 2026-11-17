@@ -43,7 +43,7 @@ public class Lote {
     public int getPrioridad() { return prioridad; }
 
     // Indica si el vehiculo esta habilitado para transportar este lote.
-    // Se compara por ID del vehiculo, no por referencia al objeto. Consultar el HashSet cuesta O(1).
+    // Se compara por ID del vehiculo. Consultar el Hash cuesta O(1).
     public boolean puedeIrEn(Vehiculo vehiculo) {
         return idsHabilitados.contains(vehiculo.getId());
     }

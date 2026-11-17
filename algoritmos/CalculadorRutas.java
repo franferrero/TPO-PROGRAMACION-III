@@ -21,19 +21,19 @@ public class CalculadorRutas {
         int n = red.cantidadUbicaciones();
 
         long[] distancia = new long[n];
-        int[] anterior = new int[n];
+        int[] anterior = new int[n]; //guarda posiciones (indices)
         boolean[] visitado = new boolean[n];
         ArrayList<String> decisiones = new ArrayList<>();
 
         for (int i = 0; i < n; i++) {
             distancia[i] = Long.MAX_VALUE;
-            anterior[i] = -1;
+            anterior[i] = -1; //no hay anterior
         }
         distancia[inicio] = 0;
         decisiones.add("Inicio en " + idOrigen + ": tiempo 0; los demas, infinito");
 
         for (int paso = 0; paso < n; paso++) {
-            int elegido = elegirUbicacion(red, distancia, visitado);
+            int elegido = elegirUbicacion(red, distancia, visitado); //elije la ubicacion pendiente de menor tiempo
             if (elegido == -1) {
                 decisiones.add("No quedan ubicaciones alcanzables sin visitar");
                 break;
@@ -46,7 +46,7 @@ public class CalculadorRutas {
             if (elegido == fin) {
                 break;
             }
-            actualizarDistancias(red, elegido, distancia, anterior, visitado, decisiones);
+            actualizarDistancias(red, elegido, distancia, anterior, visitado, decisiones); //actualiza los vecinos
         }
 
         if (distancia[fin] == Long.MAX_VALUE) {
@@ -64,14 +64,14 @@ public class CalculadorRutas {
         int elegido = -1;
         for (int i = 0; i < distancia.length; i++) {
             if (visitado[i] || distancia[i] == Long.MAX_VALUE) {
-                continue;
+                continue; //ya confirmada o por ahora no hay camino, se saltea
             }
             if (elegido == -1) {
-                elegido = i;
+                elegido = i; //primera candidata que encuentro
             } else if (distancia[i] < distancia[elegido]) {
-                elegido = i;
+                elegido = i; //es mas rapida que la anterior, tomo esta como candidata
             } else if (distancia[i] == distancia[elegido] && red.idEn(i) < red.idEn(elegido)) {
-                elegido = i;
+                elegido = i; //si se empata en tiempo, gana la del id menor
             }
         }
         return elegido;
@@ -82,17 +82,16 @@ public class CalculadorRutas {
                                              int[] anterior, boolean[] visitado,
                                              ArrayList<String> decisiones) {
         for (int j = 0; j < distancia.length; j++) {
-            int tiempo = red.tiempoEn(elegido, j);
+            int tiempo = red.tiempoEn(elegido, j); // pos elegido, pos j
             if (tiempo <= 0 || visitado[j]) {
                 continue;
             }
 
-            long alternativa = distancia[elegido] + tiempo;
-            if (alternativa < distancia[j]) {
-                String antes = distancia[j] == Long.MAX_VALUE
-                        ? "infinito" : distancia[j] + " minutos";
-                distancia[j] = alternativa;
-                anterior[j] = elegido;
+            long alternativa = distancia[elegido] + tiempo; //tiempo si paso por elegido
+            if (alternativa < distancia[j]) { //si es mejor pasando por el elegido que como estaba antes
+                String antes = distancia[j] == Long.MAX_VALUE ? "infinito" : distancia[j] + " minutos";
+                distancia[j] = alternativa; //actualizo nuevo tiempo
+                anterior[j] = elegido; //actualizo camino con el nuevo tiempo
                 decisiones.add("Se mejora " + red.idEn(j) + " desde " + antes
                         + " a " + alternativa + " minutos pasando por " + red.idEn(elegido));
             }

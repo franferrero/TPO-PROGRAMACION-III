@@ -57,8 +57,7 @@ public class BuscadorRutas {
             boolean hayConexion = tiempo > 0;
             boolean yaUsado = caminoActual.contains(idVecino);
 
-            if (hayConexion && !yaUsado && !prohibidas.contains(idVecino)
-                    && tiempoAcumulado + tiempo <= tiempoMaximo) {
+            if (hayConexion && !yaUsado && !prohibidas.contains(idVecino) && tiempoAcumulado + tiempo <= tiempoMaximo) {
                 caminoActual.add(idVecino); // elegir el vecino
 
                 backtracking(red, ubicaciones, idVecino, idDestino, tiempoAcumulado + tiempo, tiempoMaximo, prohibidas, caminoActual, rutas, tiempos); //pruebo la ruta yendo por el vecino

@@ -17,12 +17,12 @@ import resultados.ResultadoRuta;
 public class Main {
 
     public static void main(String[] args) {
-        ejecutarFuncionalidad1();
+        //ejecutarFuncionalidad1();
         ejecutarFuncionalidad2();
-        ejecutarConsultasRutasA1();
-        ejecutarFuncionalidad3();
-        ejecutarFuncionalidadB2();
-        ejecutarFuncionalidadB3();
+        //ejecutarConsultasRutasA1();
+        //ejecutarFuncionalidad3();
+        //ejecutarFuncionalidadB2();
+        //ejecutarFuncionalidadB3();
     }
 
     // Funcionalidad 1: organizacion y consulta de pedidos
@@ -41,8 +41,8 @@ public class Main {
             gestor.agregar(pedido);
         }
 
-        mostrar("Pedidos por fecha limite (mas cercana primero)", gestor.pedidosPorFechaLimite());
-        mostrar("Pedidos por prioridad (mayor primero)", gestor.pedidosPorPrioridad());
+        mostrar("Pedidos por fecha limite (mas cercana primero) Desempate: ID mas chico", gestor.pedidosPorFechaLimite());
+        mostrar("Pedidos por prioridad (mayor primero) Desempate: 1ero fecha, 2do ID", gestor.pedidosPorPrioridad());
 
         System.out.println("=== Busqueda por ID ===");
         int[] idsABuscar = {7, 1, 99};

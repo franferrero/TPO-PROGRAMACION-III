@@ -8,11 +8,7 @@ import resultados.SeleccionCarga;
 
 /**
  * Funcionalidad 3: seleccion de cargas prioritarias.
- *
- * Es el problema de la mochila, resuelto con Programacion Dinamica:
- * cada lote se carga entero o no se carga, y se busca la mayor prioridad total
- * sin superar la capacidad del vehiculo.
- *
+ * Es el problema de la mochila:
  * Se construye una matriz donde
  *     matriz[i][c] = mayor prioridad posible usando solo los primeros i lotes
  *                   con una capacidad de c.

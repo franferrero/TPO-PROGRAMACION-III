@@ -13,33 +13,33 @@ public class MergeSort {
         return copia;
     }
 
-    private static void mergeSort(ArrayList<Pedido> s, int inicio, int fin, int criterio) {
+    private static void mergeSort(ArrayList<Pedido> pedidos, int inicio, int fin, int criterio) {
         if (inicio < fin) {
             int medio = (inicio + fin) / 2;
-            mergeSort(s, inicio, medio, criterio);
-            mergeSort(s, medio + 1, fin, criterio);
-            merge(s, inicio, fin, criterio);
+            mergeSort(pedidos, inicio, medio, criterio);
+            mergeSort(pedidos, medio + 1, fin, criterio);
+            merge(pedidos, inicio, fin, criterio);
         }
     }
 
-    private static void merge(ArrayList<Pedido> s, int inicio, int fin, int criterio) {
+    private static void merge(ArrayList<Pedido> pedidos, int inicio, int fin, int criterio) {
         ArrayList<Pedido> r = new ArrayList<>();
         int medio = (inicio + fin) / 2;
         int i = inicio;
         int j = medio + 1;
         for (int k = 0; k <= fin - inicio; k++) {
 
-            if (i <= medio && (j > fin || ComparadorPedido.comparar(s.get(i), s.get(j), criterio) <= 0)) { // si cumple tomo el de la izq
-                r.add(s.get(i));
+            if (i <= medio && (j > fin || ComparadorPedido.comparar(pedidos.get(i), pedidos.get(j), criterio) <= 0)) { // si cumple tomo el de la izq
+                r.add(pedidos.get(i));
                 i++;
             } else { // sino tomo de la derecha
-                r.add(s.get(j));
+                r.add(pedidos.get(j));
                 j++;
             }
         }
 
         for (int k = 0; k <= fin - inicio; k++) {
-            s.set(inicio + k, r.get(k));
+            pedidos.set(inicio + k, r.get(k));
         }
     }
 }

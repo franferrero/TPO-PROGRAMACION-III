@@ -39,7 +39,7 @@ public class DistribuidorCargas {
             boolean habilitado = lote.puedeIrEn(vehiculos.get(v));
             boolean entra = lote.getPeso() <= capacidadRestante[v];
 
-            if (habilitado && entra) {
+            if (habilitado && entra) { //poda
                 asignacion[i] = v; // lote i en el vehiculo v
                 capacidadRestante[v] -= lote.getPeso();
 

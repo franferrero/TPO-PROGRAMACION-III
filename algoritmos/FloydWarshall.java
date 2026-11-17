@@ -7,8 +7,8 @@ import resultados.ResultadoRuta;
 
 public class FloydWarshall {
     private final ArrayList<Integer> ubicaciones;
-    private final long[][] distancias;
-    private final int[][] siguiente;
+    private final long[][] distancias; // mejores tiempos
+    private final int[][] siguiente; // primer paso del mejor camino
 
     public FloydWarshall(RedVial red) {
         if (red == null) {
@@ -24,32 +24,31 @@ public class FloydWarshall {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 int tiempo = red.tiempoEn(i, j);
-                if (i == j) {
+                if (i == j) { // de una ubicación a sí misma: 0
                     distancias[i][j] = 0;
                     siguiente[i][j] = i;
-                } else if (tiempo > 0) {
+                } else if (tiempo > 0) { //hay camino directo
                     distancias[i][j] = tiempo;
                     siguiente[i][j] = j;
                 } else {
-                    distancias[i][j] = Long.MAX_VALUE;
+                    distancias[i][j] = Long.MAX_VALUE; //no hay camino
                     siguiente[i][j] = -1;
                 }
             }
         }
 
         // Programacion Dinamica: considerar cada ubicacion k como intermedia.
-        for (int k = 0; k < n; k++) {
+        for (int k = 0; k < n; k++) { // k: la ubicación que pruebo como escala
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
-                    if (distancias[i][k] == Long.MAX_VALUE
-                            || distancias[k][j] == Long.MAX_VALUE) {
+                    if (distancias[i][k] == Long.MAX_VALUE || distancias[k][j] == Long.MAX_VALUE) {
                         continue; // No se puede pasar por k.
                     }
 
                     long pasandoPorK = distancias[i][k] + distancias[k][j];
                     if (pasandoPorK < distancias[i][j]) {
                         distancias[i][j] = pasandoPorK;
-                        siguiente[i][j] = siguiente[i][k];
+                        siguiente[i][j] = siguiente[i][k]; //actualizo primer paso
                     }
                 }
             }
@@ -57,9 +56,9 @@ public class FloydWarshall {
     }
 
     // Devuelve -1 cuando no existe un recorrido; 0 si origen y destino coinciden.
-    public long consultarTiempo(int origen, int destino) {
-        int i = indiceDe(origen);
-        int j = indiceDe(destino);
+    public long consultarTiempo(int idOrigen, int idDestino) {
+        int i = indiceDe(idOrigen);
+        int j = indiceDe(idDestino);
         if (distancias[i][j] == Long.MAX_VALUE) {
             return -1;
         }
@@ -67,16 +66,16 @@ public class FloydWarshall {
     }
 
     //Devuelve el camino de ubicaciones; lista vacia si no hay conexion.
-    public ArrayList<Integer> consultarRecorrido(int origen, int destino) {
-        int i = indiceDe(origen);
-        int j = indiceDe(destino);
+    public ArrayList<Integer> consultarRecorrido(int idOrigen, int idDestino) {
+        int i = indiceDe(idOrigen);
+        int j = indiceDe(idDestino);
         return reconstruir(i, j);
     }
 
     //Consulta el tiempo y el recorrido ya calculados, sin repetir Floyd-Warshall. 
-    public ResultadoRuta consultar(int origen, int destino) {
-        int i = indiceDe(origen);
-        int j = indiceDe(destino);
+    public ResultadoRuta consultar(int idOrigen, int idDestino) {
+        int i = indiceDe(idOrigen);
+        int j = indiceDe(idDestino);
         if (distancias[i][j] == Long.MAX_VALUE) {
             return new ResultadoRuta(new ArrayList<>(), -1, new ArrayList<>());
         }

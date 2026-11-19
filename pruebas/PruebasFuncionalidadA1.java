@@ -8,7 +8,7 @@ import algoritmos.FloydWarshall;
 import modelo.RedVial;
 import resultados.ResultadoRuta;
 
-
+// Casos de prueba de la funcionalidad A1. Ex PruebasFloyd
 public class PruebasFuncionalidadA1 {
     private static int pruebas = 0;
     private static int grupos = 0;

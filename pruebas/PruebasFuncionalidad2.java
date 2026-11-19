@@ -6,7 +6,7 @@ import algoritmos.CalculadorRutas;
 import modelo.RedVial;
 import resultados.ResultadoRuta;
 
-/** Pruebas sin JUnit, igual que las otras funcionalidades del TPO. */
+//Casos de prueba de la funcionalidad 2. Ex PruebasRutas
 public class PruebasFuncionalidad2 {
     private static int verificaciones = 0;
     private static int grupos = 0;

@@ -39,7 +39,7 @@ public class SelectorCargas {
         for (int i = 1; i <= n; i++) { // arranca desde la fila 1
             Lote lote = lotes.get(i - 1);
             for (int c = 0; c <= capacidad; c++) {
-                if (lote.getPeso() > c) { // No entra, se copia lo que ya estaba sin este lote
+                if (lote.getPeso() > c) { // No entra, se copia lo que ya estaba sin ese lote
                     matriz[i][c] = matriz[i - 1][c];
                 } else { // Si entra, se elige lo mejor entre cargar y no cargar el lote
                     int sinCargar = matriz[i - 1][c];

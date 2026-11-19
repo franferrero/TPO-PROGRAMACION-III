@@ -2,7 +2,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import algoritmos.BuscadorRutas;
+import algoritmos.BuscadorRutasAlternativas;
 import algoritmos.CalculadorRutas;
 import algoritmos.DistribuidorCargas;
 import algoritmos.FloydWarshall;
@@ -18,10 +18,10 @@ public class Main {
 
     public static void main(String[] args) {
         //ejecutarFuncionalidad1();
-        ejecutarFuncionalidad2();
+        //ejecutarFuncionalidad2();
         //ejecutarConsultasRutasA1();
         //ejecutarFuncionalidad3();
-        //ejecutarFuncionalidadB2();
+        ejecutarFuncionalidadB2();
         //ejecutarFuncionalidadB3();
     }
 
@@ -168,19 +168,19 @@ public class Main {
         System.out.println("=== Rutas alternativas de 1 a 4 ===");
 
         System.out.println("Tiempo maximo 100, sin ubicaciones prohibidas:");
-        System.out.println(BuscadorRutas.buscar(red, 1, 4, 100, new ArrayList<>()));
+        System.out.println(BuscadorRutasAlternativas.buscar(red, 1, 4, 100, new ArrayList<>()));
 
         System.out.println();
         System.out.println("Tiempo maximo 25:");
-        System.out.println(BuscadorRutas.buscar(red, 1, 4, 25, new ArrayList<>()));
+        System.out.println(BuscadorRutasAlternativas.buscar(red, 1, 4, 25, new ArrayList<>()));
 
         System.out.println();
         System.out.println("Tiempo maximo 100, ubicacion 3 prohibida:");
-        System.out.println(BuscadorRutas.buscar(red, 1, 4, 100, new ArrayList<>(Arrays.asList(3))));
+        System.out.println(BuscadorRutasAlternativas.buscar(red, 1, 4, 100, new ArrayList<>(Arrays.asList(3))));
 
         System.out.println();
         System.out.println("De 1 a 5 (ubicacion aislada):");
-        System.out.println(BuscadorRutas.buscar(red, 1, 5, 100, new ArrayList<>()));
+        System.out.println(BuscadorRutasAlternativas.buscar(red, 1, 5, 100, new ArrayList<>()));
     }
 
     // A1 (Bloque A): Floyd-Warshall, consultas entre todos los pares de ubicaciones.

@@ -13,7 +13,7 @@ Buscar un id en una lista cuesta O(V), pero ese factor no cambia el orden factor
 Las podas reducen la exploracion, no el peor caso.
 Todo se maneja por id: RedVial traduce cada id a su lugar en la matriz.
  */
-public class BuscadorRutas {
+public class BuscadorRutasAlternativas {
 
     public static RutasAlternativas buscar(RedVial red, int idOrigen, int idDestino, long tiempoMaximo, ArrayList<Integer> prohibidas) {
         if (red == null) {

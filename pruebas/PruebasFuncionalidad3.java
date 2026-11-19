@@ -9,11 +9,9 @@ import modelo.Lote;
 import modelo.Vehiculo;
 import resultados.SeleccionCarga;
 
-/**
- * Casos de prueba de la funcionalidad 3.
- * Se ejecuta con main: cada verificacion imprime OK o FALLO.
- * Los lotes de cada caso se describen como {id, peso, prioridad}.
- */
+
+// Casos de prueba de la funcionalidad 3. Ex PruebasCargas
+// Los lotes de cada caso se describen como {id, peso, prioridad}.
 public class PruebasFuncionalidad3 {
 
     private static int total = 0;

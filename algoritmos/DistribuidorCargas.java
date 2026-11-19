@@ -18,7 +18,7 @@ public class DistribuidorCargas {
         validar(vehiculos, lotes);
 
         int[] asignacion = new int[lotes.size()]; // asignacion[i] = posicion del vehiculo que lleva el lote i
-        int[] capacidadRestante = new int[vehiculos.size()]; // lugar que le queda a cada vehiculo. Revisar si no conviene modificar clase Vehiculo
+        int[] capacidadRestante = new int[vehiculos.size()]; // lugar que le queda a cada vehiculo.
         for (int v = 0; v < vehiculos.size(); v++) {
             capacidadRestante[v] = vehiculos.get(v).getCapacidadMaxima();
         }
@@ -43,7 +43,7 @@ public class DistribuidorCargas {
                 asignacion[i] = v; // lote i en el vehiculo v
                 capacidadRestante[v] -= lote.getPeso();
 
-                if (asignar(i + 1, vehiculos, lotes, asignacion, capacidadRestante)) { // para intenter ubicar los lotes restantes
+                if (asignar(i + 1, vehiculos, lotes, asignacion, capacidadRestante)) { // intento ubicar los lotes restantes
                     return true;
                 }
 

@@ -3,17 +3,14 @@ package pruebas;
 import java.util.ArrayList;
 import java.util.Random;
 
-import algoritmos.BuscadorRutas;
+import algoritmos.BuscadorRutasAlternativas;
 import modelo.RedVial;
 import resultados.RutasAlternativas;
 
-/**
- * Casos de prueba de B3 (rutas alternativas con restricciones).
- * Se ejecuta con main: cada verificacion imprime OK o FALLO.
- * Las rutas esperadas se escriben como secuencias de ids; las redes de ejemplo usan
- * la misma red de la funcionalidad 2, donde las ubicaciones 1 a 5 se conectan asi:
- * 1 -> 2 (6), 1 -> 3 (16), 1 -> 4 (30), 2 -> 3 (4), 2 -> 4 (14), 3 -> 4 (3), y la 5 queda aislada.
- */
+
+// Casos de prueba de la funcionalidad B3. Ex PruebasRutasAlternativas
+//las redes de ejemplo usan la misma red de la funcionalidad 2, donde las ubicaciones 1 a 5 se conectan asi:
+// 1 -> 2 (6), 1 -> 3 (16), 1 -> 4 (30), 2 -> 3 (4), 2 -> 4 (14), 3 -> 4 (3), y la 5 queda aislada.
 public class PruebasFuncionalidadB3 {
 
     private static int total = 0;
@@ -53,7 +50,7 @@ public class PruebasFuncionalidadB3 {
 
     // De 1 a 4 sin restricciones hay 4 rutas, que se encuentran en este orden
     private static void ejemploPrueba() {
-        RutasAlternativas r = BuscadorRutas.buscar(redEjemplo(), 1, 4, 1000, lista());
+        RutasAlternativas r = BuscadorRutasAlternativas.buscar(redEjemplo(), 1, 4, 1000, lista());
 
         verificar("Ejemplo: hay 4 rutas", r.cantidad() == 4);
         verificar("Ejemplo: 1 -> 2 -> 3 -> 4 en 13 minutos", rutaEs(r, 0, 13, 1, 2, 3, 4));
@@ -66,7 +63,7 @@ public class PruebasFuncionalidadB3 {
 
     // Con maximo 19 quedan afuera las rutas de 20 y 30 minutos
     private static void tiempoMaximoDescartaRutas() {
-        RutasAlternativas r = BuscadorRutas.buscar(redEjemplo(), 1, 4, 19, lista());
+        RutasAlternativas r = BuscadorRutasAlternativas.buscar(redEjemplo(), 1, 4, 19, lista());
 
         verificar("Maximo 19: quedan 2 rutas", r.cantidad() == 2);
         verificar("Maximo 19: queda la de 13 minutos", rutaEs(r, 0, 13, 1, 2, 3, 4));
@@ -75,7 +72,7 @@ public class PruebasFuncionalidadB3 {
 
     // Una ruta de exactamente el tiempo maximo es valida
     private static void tiempoMaximoEsInclusivo() {
-        RutasAlternativas r = BuscadorRutas.buscar(redEjemplo(), 1, 4, 13, lista());
+        RutasAlternativas r = BuscadorRutasAlternativas.buscar(redEjemplo(), 1, 4, 13, lista());
 
         verificar("Maximo 13: la ruta de exactamente 13 minutos entra", r.cantidad() == 1);
         verificar("Maximo 13: es 1 -> 2 -> 3 -> 4", rutaEs(r, 0, 13, 1, 2, 3, 4));
@@ -84,12 +81,12 @@ public class PruebasFuncionalidadB3 {
     private static void tiempoMaximoMenorQueTodasLasRutas() {
         RedVial red = redEjemplo();
 
-        verificar("Maximo 12 (la mejor tarda 13): no hay rutas", !BuscadorRutas.buscar(red, 1, 4, 12, lista()).hayRutas());
-        verificar("Maximo 0: no hay rutas entre ubicaciones distintas", !BuscadorRutas.buscar(red, 1, 4, 0, lista()).hayRutas());
+        verificar("Maximo 12 (la mejor tarda 13): no hay rutas", !BuscadorRutasAlternativas.buscar(red, 1, 4, 12, lista()).hayRutas());
+        verificar("Maximo 0: no hay rutas entre ubicaciones distintas", !BuscadorRutasAlternativas.buscar(red, 1, 4, 0, lista()).hayRutas());
     }
 
     private static void unaUbicacionProhibida() {
-        RutasAlternativas r = BuscadorRutas.buscar(redEjemplo(), 1, 4, 1000, lista(3));
+        RutasAlternativas r = BuscadorRutasAlternativas.buscar(redEjemplo(), 1, 4, 1000, lista(3));
 
         verificar("Prohibida 3: quedan 2 rutas", r.cantidad() == 2);
         verificar("Prohibida 3: queda 1 -> 2 -> 4", rutaEs(r, 0, 20, 1, 2, 4));
@@ -99,14 +96,14 @@ public class PruebasFuncionalidadB3 {
     }
 
     private static void variasUbicacionesProhibidas() {
-        RutasAlternativas r = BuscadorRutas.buscar(redEjemplo(), 1, 4, 1000, lista(2, 3));
+        RutasAlternativas r = BuscadorRutasAlternativas.buscar(redEjemplo(), 1, 4, 1000, lista(2, 3));
 
         verificar("Prohibidas 2 y 3: solo queda la ruta directa", r.cantidad() == 1 && rutaEs(r, 0, 30, 1, 4));
     }
 
     private static void prohibidaYTiempoMaximoJuntos() {
         // Sin pasar por 3 quedan las de 20 y 30 minutos; con maximo 25 solo la de 20
-        RutasAlternativas r = BuscadorRutas.buscar(redEjemplo(), 1, 4, 25, lista(3));
+        RutasAlternativas r = BuscadorRutasAlternativas.buscar(redEjemplo(), 1, 4, 25, lista(3));
 
         verificar("Prohibida y maximo juntos: queda una ruta", r.cantidad() == 1);
         verificar("Prohibida y maximo juntos: es 1 -> 2 -> 4", rutaEs(r, 0, 20, 1, 2, 4));
@@ -116,35 +113,35 @@ public class PruebasFuncionalidadB3 {
         RedVial red = redEjemplo();
 
         verificar("Prohibida fuera de los caminos (5): siguen las 4 rutas",
-                BuscadorRutas.buscar(red, 1, 4, 1000, lista(5)).cantidad() == 4);
+                BuscadorRutasAlternativas.buscar(red, 1, 4, 1000, lista(5)).cantidad() == 4);
         verificar("Lista de prohibidas nula: equivale a no prohibir nada",
-                BuscadorRutas.buscar(red, 1, 4, 1000, null).cantidad() == 4);
+                BuscadorRutasAlternativas.buscar(red, 1, 4, 1000, null).cantidad() == 4);
     }
 
     private static void origenODestinoProhibido() {
         RedVial red = redEjemplo();
 
-        verificar("Origen prohibido: no hay rutas", !BuscadorRutas.buscar(red, 1, 4, 1000, lista(1)).hayRutas());
-        verificar("Destino prohibido: no hay rutas", !BuscadorRutas.buscar(red, 1, 4, 1000, lista(4)).hayRutas());
+        verificar("Origen prohibido: no hay rutas", !BuscadorRutasAlternativas.buscar(red, 1, 4, 1000, lista(1)).hayRutas());
+        verificar("Destino prohibido: no hay rutas", !BuscadorRutasAlternativas.buscar(red, 1, 4, 1000, lista(4)).hayRutas());
         verificar("Origen igual a destino y prohibido: no hay rutas",
-                !BuscadorRutas.buscar(red, 5, 5, 1000, lista(5)).hayRutas());
+                !BuscadorRutasAlternativas.buscar(red, 5, 5, 1000, lista(5)).hayRutas());
     }
 
     // Igual que en la funcionalidad 2: la ruta de una sola ubicacion, con tiempo 0
     private static void origenIgualDestino() {
-        RutasAlternativas r = BuscadorRutas.buscar(redEjemplo(), 2, 2, 1000, lista());
+        RutasAlternativas r = BuscadorRutasAlternativas.buscar(redEjemplo(), 2, 2, 1000, lista());
 
         verificar("Origen igual a destino: una sola ruta", r.cantidad() == 1);
         verificar("Origen igual a destino: la ruta es solo esa ubicacion con tiempo 0", rutaEs(r, 0, 0, 2));
         verificar("Origen igual a destino con maximo 0: sigue siendo valida",
-                BuscadorRutas.buscar(redEjemplo(), 2, 2, 0, lista()).hayRutas());
+                BuscadorRutasAlternativas.buscar(redEjemplo(), 2, 2, 0, lista()).hayRutas());
     }
 
     // Con la conexion 3 -> 2 existe el ciclo 2 -> 3 -> 2: ninguna ruta debe repetir ubicaciones
     private static void redConCiclo() {
         RedVial red = redEjemplo();
         red.agregarConexion(3, 2, 2);
-        RutasAlternativas r = BuscadorRutas.buscar(red, 1, 4, 1000, lista());
+        RutasAlternativas r = BuscadorRutasAlternativas.buscar(red, 1, 4, 1000, lista());
 
         verificar("Ciclo: hay 5 rutas (aparece 1 -> 3 -> 2 -> 4)", r.cantidad() == 5);
         verificar("Ciclo: 1 -> 3 -> 2 -> 4 en 32 minutos", rutaEs(r, 2, 32, 1, 3, 2, 4));
@@ -160,7 +157,7 @@ public class PruebasFuncionalidadB3 {
     }
 
     private static void destinoSinConexion() {
-        RutasAlternativas r = BuscadorRutas.buscar(redEjemplo(), 1, 5, 1000, lista());
+        RutasAlternativas r = BuscadorRutasAlternativas.buscar(redEjemplo(), 1, 5, 1000, lista());
 
         verificar("Destino aislado: no hay rutas", !r.hayRutas() && r.cantidad() == 0);
         verificar("Sin rutas: la mejor ruta esta vacia", r.getMejorRuta().isEmpty());
@@ -171,17 +168,17 @@ public class PruebasFuncionalidadB3 {
     private static void sentidoDeLasConexiones() {
         RedVial red = redEjemplo();
 
-        verificar("Sentido contrario (4 a 1): no hay rutas", !BuscadorRutas.buscar(red, 4, 1, 1000, lista()).hayRutas());
+        verificar("Sentido contrario (4 a 1): no hay rutas", !BuscadorRutasAlternativas.buscar(red, 4, 1, 1000, lista()).hayRutas());
 
         red.agregarConexion(4, 1, 5);
-        RutasAlternativas r = BuscadorRutas.buscar(red, 4, 1, 1000, lista());
+        RutasAlternativas r = BuscadorRutasAlternativas.buscar(red, 4, 1, 1000, lista());
         verificar("Con la conexion 4 -> 1 agregada: hay una ruta", r.cantidad() == 1 && rutaEs(r, 0, 5, 4, 1));
     }
 
     private static void conexionDeshabilitada() {
         RedVial red = redEjemplo();
         red.deshabilitarConexion(2, 3);
-        RutasAlternativas r = BuscadorRutas.buscar(red, 1, 4, 1000, lista());
+        RutasAlternativas r = BuscadorRutasAlternativas.buscar(red, 1, 4, 1000, lista());
 
         verificar("Conexion 2 -> 3 deshabilitada: quedan 3 rutas", r.cantidad() == 3);
         verificar("Conexion deshabilitada: ya no existe 1 -> 2 -> 3 -> 4", !contieneRuta(r, 1, 2, 3, 4));
@@ -202,14 +199,14 @@ public class PruebasFuncionalidadB3 {
                 }
             }
         }
-        RutasAlternativas r = BuscadorRutas.buscar(red, 1, 5, 100, lista());
+        RutasAlternativas r = BuscadorRutasAlternativas.buscar(red, 1, 5, 100, lista());
 
         verificar("Red completa: hay 16 rutas", r.cantidad() == 16);
         verificar("Red completa: la mejor es la directa", idsIguales(r.getMejorRuta(), new int[]{1, 5}) && r.getMejorTiempo() == 1);
         verificar("Red completa con maximo 2: 1 ruta de 1 tramo y 3 de 2 tramos",
-                BuscadorRutas.buscar(red, 1, 5, 2, lista()).cantidad() == 4);
+                BuscadorRutasAlternativas.buscar(red, 1, 5, 2, lista()).cantidad() == 4);
         verificar("Red completa sin 2 ni 3: quedan 1 -> 5 y 1 -> 4 -> 5",
-                BuscadorRutas.buscar(red, 1, 5, 100, lista(2, 3)).cantidad() == 2);
+                BuscadorRutasAlternativas.buscar(red, 1, 5, 100, lista(2, 3)).cantidad() == 2);
     }
 
     // Las ubicaciones se agregan en el orden 30, 20, 10: el id no coincide con el lugar que ocupa
@@ -221,7 +218,7 @@ public class PruebasFuncionalidadB3 {
         red.agregarConexion(10, 20, 5);
         red.agregarConexion(20, 30, 7);
         red.agregarConexion(10, 30, 20);
-        RutasAlternativas r = BuscadorRutas.buscar(red, 10, 30, 100, lista());
+        RutasAlternativas r = BuscadorRutasAlternativas.buscar(red, 10, 30, 100, lista());
 
         verificar("Ids distintos de posiciones: hay 2 rutas", r.cantidad() == 2);
         verificar("Ids distintos de posiciones: existe 10 -> 30 en 20 minutos", contieneRuta(r, 10, 30));
@@ -229,7 +226,7 @@ public class PruebasFuncionalidadB3 {
         verificar("Ids distintos de posiciones: la mejor es 10 -> 20 -> 30",
                 idsIguales(r.getMejorRuta(), new int[]{10, 20, 30}) && r.getMejorTiempo() == 12);
         verificar("Ids distintos de posiciones: prohibida la 20 queda 10 -> 30",
-                BuscadorRutas.buscar(red, 10, 30, 100, lista(20)).cantidad() == 1);
+                BuscadorRutasAlternativas.buscar(red, 10, 30, 100, lista(20)).cantidad() == 1);
     }
 
     // Dos rutas con el mismo tiempo: la mejor es la que se encontro primero
@@ -242,7 +239,7 @@ public class PruebasFuncionalidadB3 {
         red.agregarConexion(1, 3, 1);
         red.agregarConexion(2, 4, 2);
         red.agregarConexion(3, 4, 2);
-        RutasAlternativas r = BuscadorRutas.buscar(red, 1, 4, 100, lista());
+        RutasAlternativas r = BuscadorRutasAlternativas.buscar(red, 1, 4, 100, lista());
 
         verificar("Empate: hay 2 rutas de 3 minutos", r.cantidad() == 2 && r.getTiempo(0) == 3 && r.getTiempo(1) == 3);
         verificar("Empate: la mejor es la primera encontrada (1 -> 2 -> 4)",
@@ -250,7 +247,7 @@ public class PruebasFuncionalidadB3 {
     }
 
     private static void resultadoYListasNoSeModifican() {
-        RutasAlternativas r = BuscadorRutas.buscar(redEjemplo(), 1, 4, 1000, lista());
+        RutasAlternativas r = BuscadorRutasAlternativas.buscar(redEjemplo(), 1, 4, 1000, lista());
         r.getRuta(0).clear();
         r.getMejorRuta().clear();
 
@@ -258,12 +255,12 @@ public class PruebasFuncionalidadB3 {
         verificar("Modificar la mejor ruta devuelta no altera el resultado", r.getMejorRuta().size() == 4);
 
         ArrayList<Integer> prohibidas = lista(3);
-        BuscadorRutas.buscar(redEjemplo(), 1, 4, 1000, prohibidas);
+        BuscadorRutasAlternativas.buscar(redEjemplo(), 1, 4, 1000, prohibidas);
         verificar("La lista de prohibidas no se modifica", prohibidas.size() == 1 && prohibidas.get(0) == 3);
     }
 
     private static void textoDeSalida() {
-        String texto = BuscadorRutas.buscar(redEjemplo(), 1, 4, 19, lista()).toString();
+        String texto = BuscadorRutasAlternativas.buscar(redEjemplo(), 1, 4, 19, lista()).toString();
 
         verificar("Texto: indica la cantidad de rutas", texto.contains("Rutas encontradas: 2"));
         verificar("Texto: muestra una ruta con su tiempo", texto.contains("1 -> 2 -> 3 -> 4 | 13 minutos"));
@@ -274,12 +271,12 @@ public class PruebasFuncionalidadB3 {
     private static void datosInvalidos() {
         final RedVial red = redEjemplo();
 
-        verificar("Red nula lanza excepcion", lanzaExcepcion(() -> BuscadorRutas.buscar(null, 1, 4, 10, lista())));
-        verificar("Origen inexistente lanza excepcion", lanzaExcepcion(() -> BuscadorRutas.buscar(red, 99, 4, 10, lista())));
-        verificar("Destino inexistente lanza excepcion", lanzaExcepcion(() -> BuscadorRutas.buscar(red, 1, 99, 10, lista())));
-        verificar("Tiempo maximo negativo lanza excepcion", lanzaExcepcion(() -> BuscadorRutas.buscar(red, 1, 4, -1, lista())));
+        verificar("Red nula lanza excepcion", lanzaExcepcion(() -> BuscadorRutasAlternativas.buscar(null, 1, 4, 10, lista())));
+        verificar("Origen inexistente lanza excepcion", lanzaExcepcion(() -> BuscadorRutasAlternativas.buscar(red, 99, 4, 10, lista())));
+        verificar("Destino inexistente lanza excepcion", lanzaExcepcion(() -> BuscadorRutasAlternativas.buscar(red, 1, 99, 10, lista())));
+        verificar("Tiempo maximo negativo lanza excepcion", lanzaExcepcion(() -> BuscadorRutasAlternativas.buscar(red, 1, 4, -1, lista())));
         verificar("Ubicacion prohibida inexistente lanza excepcion",
-                lanzaExcepcion(() -> BuscadorRutas.buscar(red, 1, 4, 10, lista(99))));
+                lanzaExcepcion(() -> BuscadorRutasAlternativas.buscar(red, 1, 4, 10, lista(99))));
     }
 
     // Compara contra una busqueda exhaustiva sin podas en redes aleatorias pequenias:
@@ -321,7 +318,7 @@ public class PruebasFuncionalidadB3 {
                 }
             }
 
-            RutasAlternativas r = BuscadorRutas.buscar(red, idOrigen, idDestino, tiempoMaximo, prohibidas);
+            RutasAlternativas r = BuscadorRutasAlternativas.buscar(red, idOrigen, idDestino, tiempoMaximo, prohibidas);
             ArrayList<ArrayList<Integer>> esperadas = fuerzaBruta(red, idOrigen, idDestino, tiempoMaximo, prohibidas);
 
             boolean coincide = r.cantidad() == esperadas.size();

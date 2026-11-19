@@ -8,10 +8,8 @@ import algoritmos.ComparadorPedido;
 import algoritmos.GestorPedidos;
 import modelo.Pedido;
 
-/**
- * Casos de prueba de la funcionalidad 1.
- * Se ejecuta con main: cada verificacion imprime OK o FALLO.
- */
+
+//Casos de prueba de la funcionalidad 1. Ex PruebasPedidos
 public class PruebasFuncionalidad1 {
 
     private static int total = 0;

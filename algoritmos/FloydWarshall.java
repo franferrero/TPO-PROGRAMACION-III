@@ -5,9 +5,11 @@ import java.util.ArrayList;
 import modelo.RedVial;
 import resultados.ResultadoRuta;
 
+//Funcionalidad A1
+
 public class FloydWarshall {
     private final ArrayList<Integer> ubicaciones;
-    private final long[][] distancias; // mejores tiempos
+    private final long[][] distancias;
     private final int[][] siguiente; // primer paso del mejor camino
 
     public FloydWarshall(RedVial red) {
@@ -20,7 +22,7 @@ public class FloydWarshall {
         distancias = new long[n][n];
         siguiente = new int[n][n];
 
-        // M0: diagonal en cero, tiempo de conexion directa o infinito.
+        // M0
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 int tiempo = red.tiempoEn(i, j);
@@ -37,12 +39,11 @@ public class FloydWarshall {
             }
         }
 
-        // Programacion Dinamica: considerar cada ubicacion k como intermedia.
-        for (int k = 0; k < n; k++) { // k: la ubicación que pruebo como escala
+        for (int k = 0; k < n; k++) { // k: escala
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
                     if (distancias[i][k] == Long.MAX_VALUE || distancias[k][j] == Long.MAX_VALUE) {
-                        continue; // No se puede pasar por k.
+                        continue;
                     }
 
                     long pasandoPorK = distancias[i][k] + distancias[k][j];
@@ -55,7 +56,6 @@ public class FloydWarshall {
         }
     }
 
-    // Devuelve -1 cuando no existe un recorrido; 0 si origen y destino coinciden.
     public long consultarTiempo(int idOrigen, int idDestino) {
         int i = indiceDe(idOrigen);
         int j = indiceDe(idDestino);
@@ -71,8 +71,7 @@ public class FloydWarshall {
         int j = indiceDe(idDestino);
         return reconstruir(i, j);
     }
-
-    //Consulta el tiempo y el recorrido ya calculados, sin repetir Floyd-Warshall. 
+ 
     public ResultadoRuta consultar(int idOrigen, int idDestino) {
         int i = indiceDe(idOrigen);
         int j = indiceDe(idDestino);

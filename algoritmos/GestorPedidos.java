@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 import modelo.Pedido;
 
-// El gestor administra los pedidos y mantiene siempre UNA estructura: la lista ordenada por ID, que es la organizacion que necesita la busqueda binaria.
+// Funcionalidad F1
+// El gestor administra los pedidos y mantiene siempre UNA estructura: lista ordenada por ID.
 
 public class GestorPedidos {
 
-    private final ArrayList<Pedido> pedidosPorId = new ArrayList<>();   // siempre ordenada por ID
+    private final ArrayList<Pedido> pedidosPorId = new ArrayList<>(); 
 
-    // Inserta el pedido en la posicion y mantiene el orden por ID. O(N)
     public void agregar(Pedido pedido) {
         int posicion = 0;
         while (posicion < pedidosPorId.size() && pedidosPorId.get(posicion).getId() < pedido.getId()) {
@@ -19,7 +19,7 @@ public class GestorPedidos {
         if (posicion < pedidosPorId.size() && pedidosPorId.get(posicion).getId() == pedido.getId()) {
             throw new IllegalArgumentException("ID de pedido repetido: " + pedido.getId());
         }
-        pedidosPorId.add(posicion, pedido);   // corre hacia la derecha los que siguen
+        pedidosPorId.add(posicion, pedido);  
     }
 
     public ArrayList<Pedido> pedidosPorFechaLimite() {

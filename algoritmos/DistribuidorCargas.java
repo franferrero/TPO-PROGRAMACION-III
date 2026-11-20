@@ -6,12 +6,9 @@ import modelo.Lote;
 import modelo.Vehiculo;
 import resultados.DistribucionCargas;
 
-/*
-B2: distribucion de cargas (lotes) entre vehiculos, resuelta con Backtracking.
-La busqueda se corta apenas se encuentra una distribucion valida.
-Poda: se descarta un vehiculo para un lote si no esta habilitado o si el peso no entra en el lugar que le queda.
-Complejidad: cada uno de los L lotes pruebacsi entra en hasta V vehiculos, entonces T(L) = O(V^L) en el peor caso. Las podas reducen la exploracion en el caso promedio, pero no el peor caso.
- */
+// Funcionalidad B2: distribucion de cargas (lotes) entre vehiculos.
+// Complejidad: cada uno de los L lotes prueba si entra en hasta V vehiculos, entonces T(L) = O(V^L) en el peor caso.
+
 public class DistribuidorCargas {
 
     public static DistribucionCargas distribuir(ArrayList<Vehiculo> vehiculos, ArrayList<Lote> lotes) {
@@ -39,15 +36,15 @@ public class DistribuidorCargas {
             boolean habilitado = lote.puedeIrEn(vehiculos.get(v));
             boolean entra = lote.getPeso() <= capacidadRestante[v];
 
-            if (habilitado && entra) { //poda
+            if (habilitado && entra) {
                 asignacion[i] = v; // lote i en el vehiculo v
                 capacidadRestante[v] -= lote.getPeso();
 
-                if (asignar(i + 1, vehiculos, lotes, asignacion, capacidadRestante)) { // intento ubicar los lotes restantes
+                if (asignar(i + 1, vehiculos, lotes, asignacion, capacidadRestante)) { 
                     return true;
                 }
 
-                capacidadRestante[v] += lote.getPeso(); // deshacer, se saca el lote y se prueba en otro vehiculo
+                capacidadRestante[v] += lote.getPeso(); 
             }
         }
         return false; // ningun vehiculo sirvio para este lote

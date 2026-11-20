@@ -5,14 +5,9 @@ import java.util.ArrayList;
 import modelo.RedVial;
 import resultados.RutasAlternativas;
 
-/*
-B3: rutas alternativas con restricciones, resuelto con Backtracking.
-Poda: se descarta una conexion si lleva a una ubicacion ya usada en la ruta, a una prohibida, o si al sumar su tiempo se supera el maximo.
-Complejidad: en el peor caso (red completa) se recorren todos los caminos simples entre origen y destino: O(V!).
-Buscar un id en una lista cuesta O(V), pero ese factor no cambia el orden factorial.
-Las podas reducen la exploracion, no el peor caso.
-Todo se maneja por id: RedVial traduce cada id a su lugar en la matriz.
- */
+// Funcionalidad B3: rutas alternativas con restricciones.
+// Complejidad: en el peor caso (red completa): O(V!). Buscar un id en una lista cuesta O(V).
+
 public class BuscadorRutasAlternativas {
 
     public static RutasAlternativas buscar(RedVial red, int idOrigen, int idDestino, long tiempoMaximo, ArrayList<Integer> prohibidas) {
@@ -58,11 +53,11 @@ public class BuscadorRutasAlternativas {
             boolean yaUsado = caminoActual.contains(idVecino);
 
             if (hayConexion && !yaUsado && !prohibidas.contains(idVecino) && tiempoAcumulado + tiempo <= tiempoMaximo) {
-                caminoActual.add(idVecino); // elegir el vecino
+                caminoActual.add(idVecino);
 
-                backtracking(red, ubicaciones, idVecino, idDestino, tiempoAcumulado + tiempo, tiempoMaximo, prohibidas, caminoActual, rutas, tiempos); //pruebo la ruta yendo por el vecino
+                backtracking(red, ubicaciones, idVecino, idDestino, tiempoAcumulado + tiempo, tiempoMaximo, prohibidas, caminoActual, rutas, tiempos);
 
-                caminoActual.remove(caminoActual.size() - 1); // deshacer, se saca el vecino y se prueba otra conexion
+                caminoActual.remove(caminoActual.size() - 1); 
             }
         }
     }
